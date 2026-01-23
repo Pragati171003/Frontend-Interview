@@ -6,5 +6,6 @@ export interface Blog {
   date: string;
   coverImage: string;
   content: string;
-  author?: string; 
+  author?: string;
+  authorRole?: string; 
 }
