@@ -1,8 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { GraduationCap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Header({ onCreateClick }: { onCreateClick: () => void }) {
+  const { toast } = useToast();
+  const handleComingSoon = (e: React.MouseEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Coming Soon!",
+      description: "This feature is currently under development.",
+    });
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur h-16 md:h-20 flex items-center">
       <div className="w-full px-4 md:px-12 flex items-center justify-between">
@@ -14,11 +24,11 @@ export default function Header({ onCreateClick }: { onCreateClick: () => void })
         </div>
         
         <nav className="hidden lg:flex gap-6 xl:gap-10 text-[16px] xl:text-[18px] font-medium text-slate-500">
-          <a href="#" className="hover:text-primary">Tools</a>
-          <a href="#" className="hover:text-primary">Practice</a>
-          <a href="#" className="hover:text-primary">Events</a>
-          <a href="#" className="hover:text-primary">Job Board</a>
-          <a href="#" className="hover:text-primary">Points</a>
+          <a href="#" onClick={handleComingSoon} className="hover:text-primary">Tools</a>
+          <a href="#" onClick={handleComingSoon} className="hover:text-primary">Practice</a>
+          <a href="#" onClick={handleComingSoon} className="hover:text-primary">Events</a>
+          <a href="#" onClick={handleComingSoon} className="hover:text-primary">Job Board</a>
+          <a href="#" onClick={handleComingSoon} className="hover:text-primary">Points</a>
         </nav>
 
         <div className="flex items-center gap-2 md:gap-4">

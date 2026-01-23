@@ -10,11 +10,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function Profile({ onCreateClick }: { onCreateClick: () => void }) {
   const [profile, setProfile] = useState({
-    name: "Arjun Mehta",
+    name: "John Doe",
     role: "Senior Financial Analyst",
     location: "Mumbai, India",
     exp: "5+ Years Exp",
-    email: "arjun@camonk.com",
+    email: "john.doe@example.com",
     bio: "Specializing in Audit Automation and Fintech."
   });
 
@@ -86,7 +86,6 @@ export default function Profile({ onCreateClick }: { onCreateClick: () => void }
               </Dialog>
             </div>
 
-            {/* Profile Display Section */}
             <div className="space-y-6">
               <div>
                 <h1 className="text-3xl font-bold text-slate-900">{profile.name}</h1>

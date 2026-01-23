@@ -3,14 +3,23 @@ import type { Blog } from "@/types/blog";
 import { Button } from "@/components/ui/button";
 import { Share2, ThumbsUp, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined; isLoading: boolean }) {
   const [liked, setLiked] = useState(false);
+  const { toast } = useToast();
 
   if (isLoading || !blog) return <div className="p-20 text-center text-slate-400">Loading...</div>;
 
   const displayDate = blog.date ? format(new Date(blog.date), "MMM dd, yyyy") : "Recent";
 
+  const handleCommentClick = () => {
+    toast({
+        title: "Comments are disabled",
+        description: "This feature will be available soon.",
+    });
+  };
+  
   return (
     <article className="max-w-5xl mx-auto bg-white rounded-[15px] md:rounded-[20px] shadow-md border border-slate-100 overflow-hidden">
       <img src={blog.coverImage || "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg"} alt="cover" className="w-full h-56 sm:h-72 md:h-[500px] object-cover" />
@@ -70,10 +79,13 @@ export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined
           </div>
           <div className="flex gap-8 text-slate-300">
             <ThumbsUp className={`w-7 h-7 cursor-pointer transition-colors ${liked ? "text-[#4f46e5]" : "hover:text-slate-400"}`} onClick={() => setLiked(!liked)} />
-            <MessageCircle className="w-7 h-7 cursor-pointer hover:text-slate-400" />
+            <button onClick={handleCommentClick} className="text-slate-300 hover:text-blue-600 transition-colors">
+              <MessageCircle className="w-8 h-8" />
+            </button>
           </div>
         </div>
       </div>
+      
     </article>
   );
 }
