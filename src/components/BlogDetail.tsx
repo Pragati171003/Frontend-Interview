@@ -1,87 +1,77 @@
+import { useState } from "react";
 import type { Blog } from "@/types/blog";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Share2 } from "lucide-react"; 
+import { Share2, ThumbsUp, MessageCircle } from "lucide-react";
+import { format } from "date-fns";
 
-interface BlogDetailProps {
-  blog: Blog | undefined;
-  isLoading: boolean;
-}
+export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined; isLoading: boolean }) {
+  const [liked, setLiked] = useState(false);
 
-export default function BlogDetail({ blog, isLoading }: BlogDetailProps) {
-  if (isLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-[300px] w-full rounded-xl" />
-        <Skeleton className="h-10 w-3/4" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-4 w-full" />
-      </div>
-    );
-  }
+  if (isLoading || !blog) return <div className="p-20 text-center text-slate-400">Loading...</div>;
 
-  if (!blog) {
-    return (
-      <div className="flex items-center justify-center h-full text-gray-400">
-        Select an article to read
-      </div>
-    );
-  }
+  const displayDate = blog.date ? format(new Date(blog.date), "MMM dd, yyyy") : "Recent";
 
   return (
-    <article className="max-w-3xl mx-auto animate-in fade-in duration-500">
-      <img
-        src={blog.coverImage}
-        alt={blog.title}
-        className="w-full h-[400px] object-cover rounded-xl shadow-md mb-8"
-      />
+    <article className="max-w-5xl mx-auto bg-white rounded-[20px] shadow-md border border-slate-100 overflow-hidden">
+      <img src={blog.coverImage || "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg"} alt="cover" className="w-full h-[500px] object-cover" />
 
-      <div className="space-y-6">
-        <div className="flex items-center gap-2 text-blue-700 font-bold text-xs uppercase tracking-widest">
-          {blog.category.join(" • ")} • 5 min read
+      <div className="px-16 py-16 space-y-10">
+        <div className="flex items-center gap-3 font-bold text-[16px] tracking-wider">
+          <span className="text-[#4f46e5]"> {blog.category?.[0] || "General"} </span>
+          <span className="text-slate-300">•</span>
+          <span className="text-slate-700 font-medium"> 5 min read </span>
         </div>
-        
-        <h1 className="text-4xl font-bold leading-tight text-slate-900">
+
+        <h1 className="text-[58px] font-bold leading-[1.1] tracking-tight text-slate-900 capitalize">
           {blog.title}
         </h1>
 
-        <Button className="bg-[#4f46e5] hover:bg-[#4338ca] text-white rounded-md flex gap-2 items-center px-6">
-          <Share2 className="w-4 h-4" />
+        <Button className="bg-[#4f46e5] hover:bg-[#4338ca] px-6 h-12 rounded-lg text-lg font-bold">
+          <Share2 className="w-5 h-5 mr-2" />
           Share Article
         </Button>
 
-        <div className="grid grid-cols-3 border rounded-lg overflow-hidden bg-gray-50/50">
-          <div className="p-4 border-r">
-            <span className="block font-bold text-gray-400 uppercase text-[10px] mb-1">Category</span>
-            <span className="text-sm font-semibold">{blog.category[0]}</span>
+        <div className="grid grid-cols-3 border border-slate-300 rounded-2xl bg-[#f8fafc]">
+          <div className="py-4 text-center border-r border-slate-300">
+            <p className="text-[14px] uppercase text-slate-500 font-bold mb-1">Category</p>
+            <p className="text-[20px] font-bold text-slate-800 capitalize">{blog.category?.[0] || "General"}</p>
           </div>
-          <div className="p-4 border-r text-center">
-            <span className="block font-bold text-gray-400 uppercase text-[10px] mb-1">Read Time</span>
-            <span className="text-sm font-semibold">5 Mins</span>
+          <div className="py-4 text-center border-r border-slate-300">
+            <p className="text-[14px] uppercase text-slate-500 font-bold mb-1">Read Time</p>
+            <p className="text-[20px] font-bold text-slate-800">5 Mins</p>
           </div>
-          <div className="p-4 text-right">
-            <span className="block font-bold text-gray-400 uppercase text-[10px] mb-1">Date</span>
-            <span className="text-sm font-semibold">{new Date(blog.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <div className="py-4 text-center">
+            <p className="text-[14px] uppercase text-slate-500 font-bold mb-1">Date</p>
+            <p className="text-[20px] font-bold text-slate-800">{displayDate}</p>
           </div>
         </div>
 
-        <p className="text-lg text-gray-600 leading-relaxed italic border-l-4 border-blue-700 pl-4">
-          {blog.description}
-        </p>
-
-        <div className="text-gray-800 leading-8 space-y-4 whitespace-pre-wrap text-[17px]">
-          {blog.content}
+        <div className="text-[20px] leading-relaxed text-slate-700 space-y-8">
+          <p className="border-l-[5px] border-[#4f46e5] pl-8 italic font-medium text-slate-900 text-[22px]">
+            {blog.description}
+          </p>
+          <div className="whitespace-pre-wrap">{blog.content}</div>
         </div>
-        
-        <div className="pt-8 border-t flex items-center justify-between">
-            <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold">AM</div>
-                <div>
-                    <p className="text-sm font-bold">Written by Arjun Mehta</p>
-                    <p className="text-xs text-gray-500">Senior Financial Analyst</p>
-                </div>
+
+        <div className="pt-10 border-t border-slate-100 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <img 
+               src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${blog.author || 'Guest'}`} 
+               className="w-12 h-12 rounded-full grayscale border" 
+            />
+            <div>
+              <p className="font-bold text-slate-900 text-base">
+                Written by {blog.author || "Guest"}
+              </p>
+              <p className="text-[12px] uppercase text-slate-400 font-bold tracking-wide">
+                {blog.author ? "Contributor" : "Unknown Author"}
+              </p>
             </div>
+          </div>
+          <div className="flex gap-8 text-slate-300">
+            <ThumbsUp className={`w-7 h-7 cursor-pointer transition-colors ${liked ? "text-[#4f46e5]" : "hover:text-slate-400"}`} onClick={() => setLiked(!liked)} />
+            <MessageCircle className="w-7 h-7 cursor-pointer hover:text-slate-400" />
+          </div>
         </div>
       </div>
     </article>

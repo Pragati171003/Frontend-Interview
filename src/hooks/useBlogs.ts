@@ -29,13 +29,13 @@ export const useBlog = (id: string | null) => {
 export const useCreateBlog = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (newBlog: Omit<Blog, "id">) => {
-      const res = await fetch(API_URL, {
+    mutationFn: async (newBlog: any) => {
+      const response = await fetch("http://localhost:3001/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newBlog, date: new Date().toISOString() }),
+        body: JSON.stringify(newBlog),
       });
-      return res.json();
+      return response.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });

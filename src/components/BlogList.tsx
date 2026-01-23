@@ -1,40 +1,57 @@
-import type { Blog } from "@/types/blog";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { TrendingUp, Award, ShieldAlert, BookOpen } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
-export default function BlogList({ 
-  blogs, 
-  onSelect, 
-  selectedId 
-}: { 
-  blogs: Blog[], 
-  onSelect: (id: string) => void,
-  selectedId: string | null 
-}) {
+const getIcon = (category: string) => {
+  if (category === "FINANCE") return <TrendingUp className="w-4 h-4" />;
+  if (category === "CAREER") return <Award className="w-4 h-4" />;
+  return <BookOpen className="w-4 h-4" />;
+};
+
+export default function BlogList({ blogs, onSelect, selectedId }: any) {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h2 className="font-bold text-lg mb-2">Latest Articles</h2>
-      {blogs.map((blog) => (
-        <Card 
-          key={blog.id}
-          onClick={() => onSelect(blog.id.toString())}
-          className={`p-4 cursor-pointer transition-all hover:shadow-md border-l-4 ${
-            selectedId === blog.id.toString() ? "border-l-blue-700 bg-blue-50/50" : "border-l-transparent"
-          }`}
-        >
-          <div className="flex justify-between items-start mb-2">
-            <span className="text-[10px] font-bold text-blue-700 uppercase tracking-widest">
-              {blog.category[0]}
-            </span>
-            <span className="text-[10px] text-gray-400">2 days ago</span>
+    <div className="space-y-6">
+      {blogs.map((blog: any, index: number) => {
+        const isActive = selectedId === blog.id.toString();
+        const timeAgo = blog.date ? formatDistanceToNow(new Date(blog.date), { addSuffix: true }) : "Recent";
+
+        return (
+          <div 
+            key={blog.id}
+            onClick={() => onSelect(blog.id.toString())}
+            className={`relative cursor-pointer p-8 rounded-xl bg-white transition-all shadow-sm border border-slate-100 ${
+              isActive ? 'border-l-[6px] border-l-[#4f46e5]' : 'border-l-transparent hover:bg-slate-50'
+            }`}
+          >
+            <div className="flex justify-between items-center mb-3">
+               <span className={`text-[12px] font-bold uppercase tracking-widest flex items-center gap-2 transition-colors ${
+                 isActive ? 'text-[#4f46e5]' : 'text-slate-400'
+               }`}>
+                 {getIcon(blog.category[0])}
+                 {blog.category[0]}
+               </span>
+               
+               <span className="text-[12px] font-medium text-slate-400">
+                {timeAgo.replace('about ', '')}
+               </span>
+            </div>
+
+            <h3 className="text-[20px] font-bold text-slate-900 leading-tight mb-3">
+              {blog.title}
+            </h3>
+            
+            <p className="text-slate-500 text-[15px] line-clamp-3 leading-relaxed mb-5">
+              {blog.description}
+            </p>
+
+            <div>
+               <span className={`text-[13px] font-medium px-3 py-1.5 rounded-full  transition-colors ${
+                  isActive ? 'bg-[#eef2ff] text-[#4f46e5]' : 'bg-[#f3f4f6] text-slate-500' }`}>
+                  {index === 0 ? 'Featured' : blog.category[0].charAt(0).toUpperCase() + blog.category[0].slice(1).toLowerCase()}
+               </span>
+            </div>
           </div>
-          <h3 className="font-bold text-sm mb-1 line-clamp-2">{blog.title}</h3>
-          <p className="text-xs text-gray-500 line-clamp-2">{blog.description}</p>
-          <div className="mt-3 flex gap-1">
-             <Badge variant="secondary" className="text-[9px] h-4">Study Tips</Badge>
-          </div>
-        </Card>
-      ))}
+        );
+      })}
     </div>
   );
 }
