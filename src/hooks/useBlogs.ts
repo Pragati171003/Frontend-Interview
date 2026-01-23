@@ -8,9 +8,10 @@ export const useBlogs = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       const res = await fetch(API_URL);
-      if (!res.ok) throw new Error("Failed to fetch blogs");
+      if (!res.ok) throw new Error("Failed to fetch");
       return res.json();
     },
+    staleTime: 1000 * 60 * 5, 
   });
 };
 

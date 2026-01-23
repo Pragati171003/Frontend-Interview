@@ -8,6 +8,9 @@ const getIcon = (category: string) => {
 };
 
 export default function BlogList({ blogs, onSelect, selectedId }: any) {
+  if (!blogs || blogs.length === 0) {
+    return <p className="p-10 text-center text-slate-400 font-medium">No articles found.</p>;
+  }
   return (
     <div className="space-y-6">
       {blogs.map((blog: any, index: number) => {

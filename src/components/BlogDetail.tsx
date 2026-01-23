@@ -9,7 +9,8 @@ export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined
   const [liked, setLiked] = useState(false);
   const { toast } = useToast();
 
-  if (isLoading || !blog) return <div className="p-20 text-center text-slate-400">Loading...</div>;
+  if (isLoading) return <div className="p-20 text-center text-slate-400">Loading...</div>;
+  if (!blog) return <div className="p-20 text-center text-slate-400 font-medium">Select an article to read</div>;
 
   const displayDate = blog.date ? format(new Date(blog.date), "MMM dd, yyyy") : "Recent";
 
@@ -20,6 +21,9 @@ export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined
     });
   };
   
+  const wordCount = blog.content?.split(/\s+/).length || 0;
+  const readingTime = Math.max(1, Math.ceil(wordCount / 200)) * 5; 
+
   return (
     <article className="max-w-5xl mx-auto bg-white rounded-[15px] md:rounded-[20px] shadow-md border border-slate-100 overflow-hidden">
       <img src={blog.coverImage || "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg"} alt="cover" className="w-full h-56 sm:h-72 md:h-[500px] object-cover" />
@@ -28,7 +32,7 @@ export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined
         <div className="flex items-center gap-3 font-bold text-sm md:text-[16px] tracking-wider">
           <span className="text-[#4f46e5]"> {blog.category?.[0] || "General"} </span>
           <span className="text-slate-300">•</span>
-          <span className="text-slate-700 font-medium"> 5 min read </span>
+          <span className="text-[17px] font-bold text-slate-800">{readingTime} Mins</span>
         </div>
 
         <h1 className="text-3xl sm:text-4xl md:text-[58px] font-bold leading-tight tracking-tight text-slate-900 capitalize">
@@ -47,7 +51,7 @@ export default function BlogDetail({ blog, isLoading }: { blog: Blog | undefined
           </div>
           <div className="py-4 text-center border-r border-slate-300">
             <p className="text-[14px] uppercase text-slate-500 font-bold mb-1">Read Time</p>
-            <p className="text-base md:text-[20px] font-bold text-slate-800">5 Mins</p>
+            <p className="text-[17px] font-bold text-slate-800">{readingTime} Mins</p>
           </div>
           <div className="py-4 text-center">
             <p className="text-[14px] uppercase text-slate-500 font-bold mb-1">Date</p>
