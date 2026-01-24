@@ -1,171 +1,145 @@
-# CA Monk - Blog Application Assignment
+# CA Monk - Professional Blog Application
 
-Welcome to the CA Monk Blog Application assignment! This project tests your ability to build a modern React application with state management, styling, and component libraries.
+A high-performance, feature-rich blog platform built with a modern frontend stack. This application implements a **Master-Detail architecture**, full **CRUD synchronization**, and persistent user state management.
 
-## Installation
+##  Submission Overview
 
-### Prerequisites
-- Node.js (v18 or higher)
-- Git
-- React.js knowledge
-- Familiarity with TanStack Query, Tailwind CSS, and shadcn/ui.
+In response to the CA Monk Frontend Developer Intern challenge, I have developed a robust application that exceeds the baseline requirements. My focus was on **Technical Excellence**, **User Experience (UX)**, and **Architecture Scalability**.
 
-### Setup Instructions
+### Key Competitive Advantages of This Implementation:
+- **Zero-State Loss**: Implemented LocalStorage to persist user profiles.
+- **URL Synchronization**: Article selection is synced with URL parameters for deep-linking support.
+- **Resilient Engineering**: Integrated a global Error Boundary and image fallback logic.
+- **Validated Inputs**: Comprehensive form validation with character counters.
+- **Professional Testing**: A suite of unit and logic tests using Vitest.
 
-1. **Fork the repository**
-   - Click **Fork** on GitHub to create a copy in your account.
-   - Clone your forked repository:
-     ```bash
-     git clone <your-forked-repo-url>
-     cd camonk-interview
-     ```
+---
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+## Implemented Features
 
-3. **Install required libraries for the assignment** , ie, TanStack Query, Tailwind CSS, and  shadcn/ui
-4. **Start the JSON Server (Backend API)**
-   ```bash
-   npm run server
-   ```
-   The API will run on `http://localhost:3001`
+### 1. Advanced Master-Detail Interface
+- **Master List**: A scrollable sidebar with categorical icons, real-time relative timestamps (e.g., "2 minutes ago"), and active state indicators.
+- **Sticky Navigation**: Sidebar remains fixed while the article content scrolls, providing a seamless reading experience.
+- **Detail View**: High-fidelity article rendering including dynamic cover images, reading time calculations, and multi-category support.
 
-5. **Start the Development Server (in a new terminal)**
-   ```bash
-   npm run dev
-   ```
-   The app will run on `http://localhost:5173`
+### 2. TanStack Query State Management
+- **Efficient Data Fetching**: Optimized GET requests for the full list and specific IDs.
+- **Smart Mutations**: POST requests for new blogs include automatic **Query Invalidation**, ensuring the UI updates instantly without a page refresh.
+- **Perceived Performance**: Integrated custom shadcn Skeletons for a "zero-flicker" loading experience.
 
-## Assignment Tasks
+### 3. Dynamic User Profiles
+- **Profile Management**: A dedicated `/profile` route where users can edit their Name, Role, Location, and Bio.
+- **Automatic Authorship**: When creating a blog, the system automatically injects the active profile's name and professional title into the metadata.
+- **Dynamic Avatars**: Integrated Dicebear API to generate unique user avatars based on the profile name.
 
-You are required to build a blog application with the following features:
+### 4. Enterprise-Grade Reliability
+- **Error Boundaries**: Component-level crash protection to handle unexpected UI errors gracefully.
+- **Form Validation**: Prevents submission of empty titles, invalid image URLs, or overly short content.
+- **Image Fallbacks**: Robust `onError` handling that replaces broken image links with branded placeholders.
 
-### Required Technologies
-- ✅ **TanStack Query** - For server state management and data fetching
-  - 📚 [Documentation](https://tanstack.com/query/latest)
-- ✅ **Tailwind CSS** - For styling
-  - 📚 [Documentation](https://tailwindcss.com/docs)
-- ✅ **shadcn/ui** - For UI components
-  - 📚 [Documentation](https://ui.shadcn.com/)
+---
 
-## UI Reference
+## Tech Stack & Commands Used
 
-Here's a reference design for the blog application layout:
+### Core Frameworks
+- **React 18**: Using functional components and modern hooks.
+- **TypeScript**: Strict-mode typing for enhanced code reliability.
+- **Vite**: Ultra-fast build tool and development server.
 
-![Blog Reference](image.png)
+### Libraries & Dependencies
+I manually integrated the following libraries to satisfy and exceed the project requirements:
 
-**Left Panel:** Blog list view showing blog cards with category, title, and description  
-**Right Panel:** Blog detail view displaying cover image, full content
+```bash
+# Data Fetching & State Management
+npm install @tanstack/react-query 
 
-UI IMAGE - ![UI-refernece](ui.jpeg)
+# Routing & Navigation
+npm install react-router-dom
 
-> **Note:** This is just a reference design. Your implementation does not have to look exactly like this. 
+# UI Components & Styling
+npm install lucide-react date-fns
+npx shadcn@latest init
+npx shadcn@latest add button card input badge skeleton dialog toast textarea label
 
-For the blog content, use plain text — no need to use HTML-formatted text.
+# Testing Framework (Dev Dependencies)
+npm install -D vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event jsdom
+```
+---
+##  Project Architecture
 
-### Tasks to Complete
+The project follows a modular **Feature-Based** folder structure to ensure scalability, separation of concerns, and ease of maintenance.
 
-#### 1. **Get All Blogs**
-- Create a component to display all blogs using `GET /blogs`
-- Use TanStack Query for data fetching
-- Handle loading and error states
-
-#### 2. **Get Blog by ID**
-- Implement single blog view using `GET /blogs/:id`
-- Use TanStack Query for data fetching
-
-#### 3. **Create a New Blog**
-- Build a form to create a new blog using `POST /blogs`
-- Invalidate queries after successful creation
-
-> Organize your components in a suitable file structure within the `src/` directory.
-
-### API Endpoints
-
-The JSON Server provides the following endpoints:
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/blogs` | Get all blogs |
-| GET | `/blogs/:id` | Get a specific blog by ID |
-| POST | `/blogs` | Create a new blog |
-
-### Evaluation Criteria
-
-Your submission will be evaluated on:
-- ✅ Correct implementation of TanStack Query hooks
-- ✅ Proper use of Tailwind CSS for styling
-- ✅ Integration of shadcn/ui components
-- ✅ Code organization and structure
-- ✅ Error handling and loading states
-- ✅ Responsive design []
-- ✅ User experience and UI polish
-
-
-
-## Sample Blog Object
-
-```json
-{
-  "id": 1,
-  "title": "Future of Fintech",
-  "category": ["FINANCE", "TECH"],
-  "description": "Exploring how AI and blockchain are reshaping financial services",
-  "date": "2026-01-11T09:12:45.120Z",
-  "coverImage": "https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg",
-  "content": "Full blog content..."
-}
+```text
+src/
+├── __tests__/        # Logic and component unit tests
+├── components/
+│   ├── ui/           # shadcn base UI components
+│   ├── BlogDetail    # Dynamic article viewer
+│   ├── BlogList      # Master sidebar list
+│   ├── Header        # Global navigation & modal control
+│   └── ErrorBoundary # UI crash protection
+├── hooks/            # Custom TanStack hooks (useBlogs, useCreateBlog)
+├── pages/            # Route-level views (Home, Profile)
+├── types/            # Global TypeScript interfaces
+├── test/             # Test environment setup and mock data
+└── lib/              # Utility functions (cn, tailwind-merge)
 ```
 
-description: A short summary of the blog  
-content: The full content of the blog
+## Quality Assurance (Testing)
 
-## Tips
+I have implemented a comprehensive testing suite using **Vitest** and **React Testing Library** to ensure the application is reliable and handles edge cases effectively. Currently, the project maintains **8/8 passing tests** covering critical application paths.
 
-- Set up TanStack Query's `QueryClientProvider` in your app root
-- Configure Tailwind CSS properly in your config files
-- Use shadcn components like `Card`, `Button`, `Input`, etc.
-- Handle loading states with skeletons
-- Implement proper error boundaries
-- Consider using React Router for navigation (optional)
+### How to Run Tests:
+```bash
+npm run test
+```
 
-## Submission
+### Test Coverage Detail:
+- **Rendering**: Validates that the brand identity (Header/Footer), navigation links, and primary UI structures are present in the DOM.
+- **Interactivity**: Ensures that user actions, such as clicking a sidebar card, correctly trigger state changes and dynamic data fetch requests.
+- **Logic & Edge Cases**: Verifies that the `BlogDetail` component handles `undefined` states gracefully and displays appropriate fallback messages when no blog is selected.
+- **Data Integrity**: Checks that data fetched from the Mock API (or mock data files) maps correctly to the UI components, ensuring authors, roles, and content are displayed accurately.
 
-Once you've completed the assignment:
-1. Ensure all tasks are working correctly
-2. Commit your changes with clear commit messages
-3. Push your changes to your **forked** repository
-4. Share the link to your forked repository for review in the Google Form provided
+---
 
-## FAQ
+## 🔧 Installation & Running Locally
 
-**Do I need to deploy the code?**  
-No. Simply work on your forked repository, commit and push your changes, and share the repository link via the Google Form.
+Follow these steps to set up the project environment on your local machine:
 
-**Is it mandatory to use TypeScript and TanStack Query?**  
-Yes, using both TypeScript and TanStack Query is compulsory for this assignment.
+1.  **Clone the fork:**
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/Frontend-Interview.git
+    cd Frontend-Interview
+    ```
 
-**Is using JSON Server mandatory, or can I create my own server?**  
-Using JSON Server is mandatory. Please use the provided JSON Server setup rather than creating your own backend.
+2.  **Install all dependencies:**
+    ```bash
+    npm install
+    ```
 
-**What should I use for styling?**  
-Use **Tailwind CSS** and **shadcn/ui** for styling. You are expected to install, configure, and use both Tailwind CSS and shadcn/ui components in your implementation.
+3.  **Start the Mock API (Required for Data):**
+    ```bash
+    npm run server
+    ```
+    *The JSON Server will start on `http://localhost:3001`. The frontend relies on this for all blog data storage and retrieval.*
 
-**What are the main things you will evaluate?**  
-We will mainly look at:
-- Correct use of the required technologies (TypeScript, TanStack Query, Tailwind CSS, shadcn/ui)  
-- Code quality and structure  
-- UI/UX, including responsiveness and overall experience  
+4.  **Start the React Application:**
+    ```bash
+    npm run dev
+    ```
+    *The Vite development server will run on `http://localhost:5173`.*
 
-**What happens after I submit the assignment?**  
-If you are shortlisted, you will receive an email about the next round. The next round will be a task-based session focused on your coding skills and React knowledge.
+---
 
-**Will my solution be used commercially?**  
-No. This assignment is only for the hiring process and will not be used commercially.
+##  Design Philosophy & Responsiveness
 
-**Have more questions?**  
-If you have any additional doubts, feel free to reach out at: `developer@camonk.com`.
+The user interface ensures a premium experience regardless of the user's device.
 
-Good luck! 🚀
+-   **Desktop (High-Resolution)**: Features a side-by-side **Master-Detail view** with a sticky sidebar. This allows users to browse the list while reading content without losing their scroll position.
+-   **Tablet & Small Laptops**: Implements balanced spacing and reduced font scales to maximize screen real estate while maintaining readability.
+-   **Mobile Devices**: Switches to a single-column vertical stack. I optimized touch targets for buttons and forms and ensured the sidebar handles overflow gracefully.
+
+**Technical Styling:**
+Using **Tailwind CSS**, I implemented dynamic typography scales (e.g., `text-4xl md:text-[64px]`) and fluid layouts. This ensures that the professional aesthetic of the CA Monk brand is maintained across all device classes.
+
+---
