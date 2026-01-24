@@ -102,7 +102,7 @@ npm run test
 
 ---
 
-## 🔧 Installation & Running Locally
+##  Installation & Running Locally
 
 Follow these steps to set up the project environment on your local machine:
 
